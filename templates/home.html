@@ -1,0 +1,59 @@
+<HTML>
+    <head>
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+</head>
+<body style="background-color: aquamarine;">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">SecureSave</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/allimages">All Files</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+    <div id="login">
+        <div class="container" style="background-color: beige; margin-top: 200; padding: 50 0 50 0; border-radius: 10px; border: solid black 1px">
+            <div id="login-row" class="row justify-content-center align-items-center">
+                <div id="login-column" class="col-md-6">
+                    <div id="login-box" class="col-md-12">
+                        <form id="backup-form" class="form" action="/upload" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <h3 class="text-center text-dark">Backup Details</h3>
+                            <div class="form-group">
+                                <input type="text" name="name" id="name" class="form-control" placeholder="Enter Name">
+                            </div>
+                            <div class="form-group">
+                                <textarea name="desc" id="desc" class="form-control" rows="2" cols="30" placeholder="Enter Description"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for='image' class="text-dark">Browse File:</label><br>
+                                {{ form.as_p }}
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" name="upload" class="btn btn-dark btn-md" value="upload">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if message %}
+        <script>alert("{{ message }}")
+            console.log("mes : ", "{{message}}")
+        </script>
+{% endif %}
+</body>
+</HTML>
