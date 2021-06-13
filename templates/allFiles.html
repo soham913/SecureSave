@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body style="background-color: aquamarine;">
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/">SecureSave</a>
+      </div>
+    </nav>
+
+
+
+
+    <div class="container" style="background-color: beige; margin-top: 15%; padding: 5% 10% 5% 10%; border-radius: 10px; border: solid black 1px">
+      <h1 style="text-align: center;">All Files</h1>
+        <div class="row" id="allImages">
+          <ul class="list-group">
+            {% for key, values in fileDict.items %}
+            <li class="list-group-item">
+              <div class="row mt-3">
+                <div class="col-sm-3" id="name">{{values.0}}</div>
+                <div class="col-sm-3" id="desc">{{values.1}}</div>
+                <div class="col-sm-3">
+                  <!-- <form action='/download' method="POST" class="form-group"> -->
+                    {% csrf_token %}
+                    <button class="btn btn-primary" name = 'downloadBtn' onclick="getFile('{{key}}')">download</button>
+                  </form>
+                <!-- </div> -->
+                <div class="col-sm-3">
+                  <form action="/delete" method="POST" class="form-group">
+                    {% csrf_token %}
+                    <button class="btn btn-danger" name = 'deleteBtn' value="{{key}}" >delete</button>
+                  </form>
+                </div>
+                </div>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+      </div>
+    </div>
+    {% if message %}
+        <!-- <script>alert("{{ message }}")
+            console.log("mes : ", "{{message}}")
+        </script> -->
+    {% endif %}
+
+    <script>
+      function getFile(name){
+        xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function() {
+            var a, today;
+            if (xhttp.readyState === 4 && xhttp.status === 200) {
+                a = document.createElement('a');
+                a.href = window.URL.createObjectURL(xhttp.response);
+                today = new Date();
+                a.download = name;
+                a.style.display = 'none';
+                document.body.appendChild(a);
+                return a.click();
+            }
+        };
+        xhttp.open("GET", `/download?downloadBtn=${name}`, true);
+        xhttp.setRequestHeader("Content-Type", "application/json");
+        xhttp.responseType = 'blob';
+        xhttp.send();
+      }
+    </script>
+
+  </body>
+</html>
